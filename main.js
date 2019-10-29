@@ -57,10 +57,17 @@ let alSaeedCoin = new Blockchain();
 alSaeedCoin.addBlock(new Block(1, '2019/10/29', {amount: 5}));
 alSaeedCoin.addBlock(new Block(2, '2019/10/30', {amount: 15}));
 
+// Tamper data
 const block1 = alSaeedCoin.chain[1];
 block1.data = { amount : 7};
+// Tamper hash
 block1.hash = block1.calculateHash();
+
+// Re-tamper all hashes ahead in chain
+const block2 = alSaeedCoin.chain[2];
+block2.previousHash = block1.calculateHash();
+block2.hash = block2.calculateHash();
 
 console.log('is chain valid ? ' + alSaeedCoin.isChainValid());
 
-// console.log(JSON.stringify(alSaeedCoin, null, 4));
+console.log(JSON.stringify(alSaeedCoin, null, 4));
